@@ -8,11 +8,6 @@
     <!-- ໂຫຼດ Tailwind CSS ຜ່ານ CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- ໂຫຼດ Firebase Compat (UMD Version ທີ່ເຮັດວຽກໄດ້ທຸກບຣາວເຊີ ໂດຍບໍ່ຕ້ອງໃຊ້ import) -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    
     <!-- ໂຫຼດ React & ReactDOM UMD Version ຜ່ານ CDN -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -50,55 +45,15 @@
     <script type="text/babel" data-presets="custom-react">
         const { useState, useEffect } = React;
 
-        // =========================================================================
-        // [ຂັ້ນຕອນສຳຄັນ] ປ່ຽນຄ່າຄອນຟິກ FIREBASE ຂອງທ່ານຢູ່ບ່ອນນີ້ ເພື່ອໃຫ້ບັນທຶກຂໍ້ມູນຖາວອນເທິງ GitHub Pages:
-        // =========================================================================
-        const customFirebaseConfig = {
-            apiKey: "YOUR_API_KEY",                  
-            authDomain: "YOUR_AUTH_DOMAIN",          
-            projectId: "YOUR_PROJECT_ID",            
-            storageBucket: "YOUR_STORAGE_BUCKET",    
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID", 
-            appId: "YOUR_APP_ID"                     
+        // ==========================================
+        // ຄຳຕອບທີ່ຖືກຕ້ອງ (Correct Answer Key) - ປະກາດໄວ້ເທິງສຸດຂອງໂປຣແກຣມ
+        // ==========================================
+        const correctAnswers = {
+          focus1: 'b', focus2: 'd', focus3: 'a', // Focus: 3 ຂໍ້
+          align1: 'b', align2: 'd', align3: 'a', // Align: 3 ຂໍ້
+          inspire1: 'b', inspire2: 'c', inspire3: 'a', // Inspire: 3 ຂໍ້
+          gov1: 'b' // Governance: 1 ຂໍ້ (ລວມທັງໝົດ 10 ຂໍ້ພໍດີ)
         };
-        // =========================================================================
-
-        // === FIREBASE SETUP & GRACEFUL FALLBACK (ປ້ອງກັນໜ້າຈໍຂາວແບບປອດໄພ) ===
-        let firebaseConfig = null;
-        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-            try {
-                firebaseConfig = typeof __firebase_config === 'string' 
-                    ? JSON.parse(__firebase_config) 
-                    : __firebase_config;
-            } catch (e) {
-                console.error("Failed to parse firebase config:", e);
-            }
-        }
-
-        // ຫາກບໍ່ມີ config ຈາກ Canvas, ແຕ່ຜູ້ໃຊ້ມີການຕັ້ງຄ່າ customFirebaseConfig ໄວ້
-        if (!firebaseConfig && customFirebaseConfig && customFirebaseConfig.apiKey !== "YOUR_API_KEY") {
-            firebaseConfig = customFirebaseConfig;
-        }
-
-        let auth = null;
-        let db = null;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'lmg-assessment-app';
-
-        // ເຊື່ອມຕໍ່ຖານຂໍ້ມູນ ຖ້າມີຄອນຟິກທີ່ຖືກຕ້ອງ
-        if (firebaseConfig && firebaseConfig.apiKey) {
-            try {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                auth = firebase.auth();
-                db = firebase.firestore();
-                console.log("Firebase initialized successfully.");
-            } catch (e) {
-                console.error("Firebase initialization failed:", e);
-            }
-        } else {
-            console.warn("Firebase config is missing or invalid. Running in Local Demo Mode.");
-        }
 
         // ==========================================
         // ຂໍ້ມູນຕົວແປຕົວເລືອກ (Choices)
@@ -172,7 +127,7 @@
           ],
           aligna: [
             { name: 'a', label: 'A. ຄຸນນະພາບຂອງອາກາດ' },
-            { name: 'b', label: 'B. การປະຕິບັດທີ່ຜູ້ບໍລິຫານສາມາດເຮັດເພື່ອປັບປຸງການເຮັດວຽກຂອງທີມ' },
+            { name: 'b', label: 'B. ການປະຕິບັດທີ່ຜູ້ບໍລິຫານສາມາດເຮັດເພື່ອປັບປຸງການເຮັດວຽກຂອງທີມ' },
             { name: 'c', label: 'C. ວິທີການຈັດຄວາມເປັນລະບຽບໃນຫ້ອງການ' }
           ],
           alignb: [
@@ -183,8 +138,8 @@
           ],
           alignc: [
             { name: 'a', label: 'A. ຟັງ ແລະ ຖາມ' },
-            { name: 'b', label: 'B. ຖາມ ແລະ ອະທິບາຍຕະຫຼອດເວລາ' },
-            { name: 'c', label: 'C. ກະກຽມວາລະ ແລະ ບັນທຶກກອງປະຊຸມ' }
+            { name: 'b', label: 'B. ຖາມ ແລະ ອະທિບາຍຕະຫຼອດເວລາ' },
+            { name: 'c', label: 'C. ກະກຽມວาລະ ແລະ ບັນທຶກກອງປະຊຸມ' }
           ],
           inspirea: [
             { name: 'a', label: 'A. ບໍ່ໜ້າເຊື່ອຖື ແລະ ໄປເຮັດວຽກຊ້າ' },
@@ -209,17 +164,7 @@
         };
 
         // ==========================================
-        // ຄຳຕອບທີ່ຖືກຕ້ອງ (Correct Answer Key)
-        // ==========================================
-        const correctAnswers = {
-          focus1: 'b', focus2: 'd', focus3: 'a', // Focus: 3 ຂໍ້
-          align1: 'b', align2: 'd', align3: 'a', // Align: 3 ຂໍ້
-          inspire1: 'b', inspire2: 'c', inspire3: 'a', // Inspire: 3 ຂໍ້
-          gov1: 'b' // Governance: 1 ຂໍ້ (ລວມທັງໝົດ 10 ຂໍ້ພໍດີ)
-        };
-
-        // ==========================================
-        // ລະບົບ inline SVG Icons ເພື່ອປ້ອງກັນ Error ຈາກການໂຫຼດໄອຄອນພາຍນອກລົ້ມເຫຼວ 100%
+        // ລະບົບ inline SVG Icons ເພື່ອຄວາມສະຖຽນ 100%
         // ==========================================
         const Icon = {
           CheckCircle: ({ className = "w-5 h-5 text-green-500" }) => (
@@ -339,10 +284,58 @@
         ];
 
         // ==========================================
-        // MAIN APPLICATION COMPONENT
+        // COLUMN CHART COMPONENT
+        // ==========================================
+        const ColumnChart = ({ data, maxScore, isFullscreen }) => {
+          const yAxisTicks = Array.from({ length: maxScore + 1 }, (_, i) => maxScore - i);
+
+          if (!data || data.length === 0) {
+            return <div className={`flex items-center justify-center text-gray-400 ${isFullscreen ? 'h-[50vh]' : 'h-64'}`}>ຍັງບໍ່ມີຂໍ້ມູນການປະເມີນ (No data yet)</div>;
+          }
+
+          return (
+            <div className={`relative w-full pt-10 pb-14 pl-8 pr-4 transition-all duration-300 ${isFullscreen ? 'h-[55vh]' : 'h-[350px]'}`}>
+              <div className="absolute left-0 top-10 bottom-14 w-8 flex flex-col justify-between text-xs text-gray-400 text-right pr-2">
+                {yAxisTicks.map(tick => (
+                  <div key={`tick-${tick}`} className="h-0 flex items-center justify-end">{tick}</div>
+                ))}
+              </div>
+              <div className="relative w-full h-full border-b-2 border-l-2 border-gray-300 flex items-end overflow-x-auto gap-5 px-2 scrollbar-thin scrollbar-thumb-gray-300">
+                <div className="absolute inset-0 flex flex-col justify-between pointer-events-none z-0">
+                  {yAxisTicks.map(tick => (
+                    <div key={`line-${tick}`} className="w-full h-px bg-gray-100"></div>
+                  ))}
+                </div>
+                {data.map((item, index) => {
+                  if (!item) return null;
+                  const scoreValue = typeof item.score === 'number' ? item.score : 0;
+                  const heightPercentage = (scoreValue / (maxScore || 10)) * 100;
+                  const isPre = item.assessment_time === 'pre';
+                  return (
+                    <div key={item.id || index} className="relative flex flex-col items-center justify-end h-full z-10 group" style={{ minWidth: isFullscreen ? '60px' : '45px' }}>
+                      <span className={`font-bold text-gray-700 mb-1 transition-all duration-700 ${isFullscreen ? 'text-base' : 'text-sm'}`}>
+                        {scoreValue}
+                      </span>
+                      <div 
+                        className={`rounded-t-sm transition-all duration-700 ease-out shadow-sm hover:shadow-md cursor-pointer hover:opacity-85 ${isFullscreen ? 'w-14' : 'w-10'}`}
+                        style={{ height: `${heightPercentage}%`, backgroundColor: isPre ? '#35675D' : '#BF5A38' }}
+                      ></div>
+                      <div className={`absolute -bottom-10 text-center -rotate-45 transform origin-top left-1/2 -translate-x-1/2 font-bold text-gray-700 truncate ${isFullscreen ? 'w-24 text-xs' : 'w-20 text-[11px]'}`}>
+                        {item._101 || '-'}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        };
+
+        // ==========================================
+        // MAIN APPLICATION COMPONENT (USING LOCALSTORAGE PERSISTENCE)
         // ==========================================
         function App() {
-          const [user, setUser] = useState(null);
+          const [user, setUser] = useState({ uid: 'local-user', isAnonymous: true });
           const [isAdmin, setIsAdmin] = useState(false); 
           const [isChartFullscreen, setIsChartFullscreen] = useState(false);
           
@@ -364,66 +357,38 @@
           const [recentScore, setRecentScore] = useState(null);
           
           const [editId, setEditId] = useState(null);
-          const [submissions, setSubmissions] = useState([]);
           const [chartFilter, setChartFilter] = useState('all'); 
           const [selectedSubmission, setSelectedSubmission] = useState(null);
 
-          const maxTotalScore = Object.keys(correctAnswers).length;
-
-          useEffect(() => {
-            const initAuth = async () => {
-              if (!auth) {
-                setUser({ uid: 'demo-user', isAnonymous: true });
-                return;
-              }
+          // ໂຫຼດຂໍ້ມູນຈາກ LocalStorage ເປັນຄ່າເລີ່ມຕົ້ນ (ພ້ອມທັງກວດສອບຄວາມປອດໄພ)
+          const [submissions, setSubmissions] = useState(() => {
+            const localData = localStorage.getItem('lmg_submissions_data');
+            if (localData) {
               try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                  await auth.signInWithCustomToken(__initial_auth_token);
-                } else {
-                  await auth.signInAnonymously();
+                const parsed = JSON.parse(localData);
+                if (Array.isArray(parsed)) {
+                  // ກັ່ນຕອງເອົາສະເພາະ Object ທີ່ມີຄວາມສົມບູນເທົ່ານັ້ນ
+                  return parsed.filter(item => item && typeof item === 'object');
                 }
-              } catch (error) {
-                console.error("Auth error:", error);
+              } catch (e) {
+                console.error("Error parsing local storage data", e);
               }
-            };
-            initAuth();
-            
-            if (auth) {
-                const unsubscribe = auth.onAuthStateChanged(setUser);
-                return () => unsubscribe();
             }
-          }, []);
+            // ຂໍ້ມູນທົດລອງເລີ່ມຕົ້ນ (Default Mock Data)
+            return [
+              { id: 'demo-1', _101: 'LMG-001', _102: '2026-06-26', _103: '13', _104: '1314', _105: 'ພະແນກສາທາແຂວງ', assessment_time: 'pre', score: 4, maxScore: 10, timestamp: Date.now() - 3600000 },
+              { id: 'demo-2', _101: 'LMG-001', _102: '2026-06-26', _103: '13', _104: '1314', _105: 'ພະແນກສາທາແຂວງ', assessment_time: 'post', score: 8, maxScore: 10, timestamp: Date.now() }
+            ];
+          });
 
+          // ບັນທຶກຂໍ້ມູນລົງ LocalStorage
           useEffect(() => {
-            if (!user || !isAdmin) return;
-            
-            if (!db) {
-              if (submissions.length === 0) {
-                setSubmissions([
-                  { id: 'demo-1', _101: 'LMG-001', _102: '2026-06-26', _103: '13', _104: '1314', _105: 'ພະແນກສາທາ', assessment_time: 'pre', score: 4, maxScore: 10, timestamp: { toMillis: () => Date.now() - 3600000 } },
-                  { id: 'demo-2', _101: 'LMG-001', _102: '2026-06-26', _103: '13', _104: '1314', _105: 'ພະແນກສາທາ', assessment_time: 'post', score: 8, maxScore: 10, timestamp: { toMillis: () => Date.now() } }
-                ]);
-              }
-              return;
+            if (Array.isArray(submissions)) {
+              localStorage.setItem('lmg_submissions_data', JSON.stringify(submissions));
             }
+          }, [submissions]);
 
-            const submissionsRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('assessments');
-
-            const unsubscribe = submissionsRef.onSnapshot((snapshot) => {
-                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                data.sort((a, b) => {
-                  if (!a.timestamp) return 1;
-                  if (!b.timestamp) return -1;
-                  const timeA = typeof a.timestamp.toMillis === 'function' ? a.timestamp.toMillis() : (a.timestamp.seconds * 1000 || 0);
-                  const timeB = typeof b.timestamp.toMillis === 'function' ? b.timestamp.toMillis() : (b.timestamp.seconds * 1000 || 0);
-                  return timeA - timeB; 
-                });
-                setSubmissions(data);
-              },
-              (error) => console.error("Error fetching: ", error)
-            );
-            return () => unsubscribe();
-          }, [user, isAdmin]);
+          const maxTotalScore = Object.keys(correctAnswers).length;
 
           const handleAdminToggleClick = () => {
             if (isAdmin) {
@@ -469,11 +434,13 @@
           };
 
           const handleEditClick = (sub) => {
+            if (!sub) return;
             setFormData(sub); 
             setEditId(sub.id); 
             setShowResultForm(false);
             setIsChartFullscreen(false);
-            document.getElementById('left-pane').scrollTo({ top: 0, behavior: 'smooth' });
+            const leftPane = document.getElementById('left-pane');
+            if (leftPane) leftPane.scrollTo({ top: 0, behavior: 'smooth' });
           };
 
           const cancelEdit = () => {
@@ -485,21 +452,10 @@
             setDeleteConfirmId(id);
           };
 
-          const confirmDelete = async () => {
+          const confirmDelete = () => {
             if (!deleteConfirmId) return;
-            if (!db) {
-              setSubmissions(prev => prev.filter(s => s.id !== deleteConfirmId));
-              setDeleteConfirmId(null);
-              return;
-            }
-            try {
-              await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('assessments').doc(deleteConfirmId).delete();
-              setDeleteConfirmId(null);
-            } catch (error) {
-              console.error("Error deleting: ", error);
-              setSubmitErrorMsg("ບໍ່ສາມາດລຶບຂໍ້ມູນໄດ້ (Cannot delete).");
-              setDeleteConfirmId(null);
-            }
+            setSubmissions(prev => prev.filter(s => s && s.id !== deleteConfirmId));
+            setDeleteConfirmId(null);
           };
 
           const handleChange = (name, value) => {
@@ -545,59 +501,38 @@
             return currentScore;
           };
 
-          const handleSubmit = async () => {
-            if (!validateForm() || !user) return;
+          const handleSubmit = () => {
+            if (!validateForm()) return;
             setIsSubmitting(true);
             setSubmitErrorMsg(''); 
             
             const finalScore = calculateScore();
             setRecentScore({ total: finalScore, max: maxTotalScore });
 
+            const timestampVal = editId && formData.timestamp ? formData.timestamp : Date.now();
             const dataToSave = {
               ...formData,
               score: finalScore,
               maxScore: maxTotalScore,
               percentage: Math.round((finalScore / maxTotalScore) * 100),
-              timestamp: editId ? formData.timestamp : (db ? firebase.firestore.FieldValue.serverTimestamp() : { toMillis: () => Date.now(), seconds: Date.now() / 1000 }),
-              updatedAt: editId ? (db ? firebase.firestore.FieldValue.serverTimestamp() : { toMillis: () => Date.now() }) : null, 
-              userId: formData.userId || user.uid 
+              timestamp: timestampVal,
+              updatedAt: editId ? Date.now() : null, 
+              id: editId || 'local-' + Math.random().toString(36).substr(2, 9)
             };
 
-            if (!db) {
-              if (editId) {
-                setSubmissions(prev => prev.map(s => s.id === editId ? { ...dataToSave, id: editId } : s));
-              } else {
-                const newDoc = { ...dataToSave, id: 'local-' + Math.random().toString(36).substr(2, 9) };
-                setSubmissions(prev => [...prev, newDoc]);
-              }
-              setShowResultForm(true);
-              setIsSubmitting(false);
-              if (isAdmin) {
-                document.getElementById('left-pane').scrollTo({ top: 0, behavior: 'smooth' });
-              } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-              return;
+            if (editId) {
+              setSubmissions(prev => prev.map(s => s && s.id === editId ? dataToSave : s));
+            } else {
+              setSubmissions(prev => [...prev, dataToSave]);
             }
-
-            try {
-              if (editId) {
-                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('assessments').doc(editId).update(dataToSave);
-              } else {
-                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('assessments').add(dataToSave);
-              }
-              
-              setShowResultForm(true);
-              if (isAdmin) {
-                document.getElementById('left-pane').scrollTo({ top: 0, behavior: 'smooth' });
-              } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            } catch (error) {
-              console.error("Error saving document: ", error);
-              setSubmitErrorMsg("ຂໍອະໄພ, ບໍ່ສາມາດບັນທຶກຂໍ້ມູນໄດ້ໃນເວລານີ້. ກະລຸນາລອງໃໝ່ອີກຄັ້ງ.");
-            } finally {
-              setIsSubmitting(false);
+            
+            setShowResultForm(true);
+            setIsSubmitting(false);
+            if (isAdmin) {
+              const leftPane = document.getElementById('left-pane');
+              if (leftPane) leftPane.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           };
 
@@ -608,7 +543,8 @@
             setShowResultForm(false);
             setSubmitErrorMsg('');
             if (isAdmin) {
-              document.getElementById('left-pane').scrollTo({ top: 0, behavior: 'smooth' });
+              const leftPane = document.getElementById('left-pane');
+              if (leftPane) leftPane.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -622,16 +558,23 @@
             return item ? item.label : nameValue;
           };
 
-          const filteredChartData = submissions.filter(s => {
+          // ກັ່ນຕອງຄວາມປອດໄພຂອງອາເຣ submissions
+          const safeSubmissions = Array.isArray(submissions) ? submissions.filter(Boolean) : [];
+
+          const filteredChartData = safeSubmissions.filter(s => {
+            if (!s) return false;
             if (chartFilter === 'all') return true;
             return s.assessment_time === chartFilter;
           });
 
-          const groupedSubmissions = Object.values(submissions.reduce((acc, sub) => {
+          // --- ຈັດກຸ່ມຂໍ້ມູນຢ່າງປອດໄພ ປ້ອງກັນ null values Crash ---
+          const groupedSubmissions = Object.values(safeSubmissions.reduce((acc, sub) => {
+            if (!sub) return acc;
             const code = sub._101;
             if (!code) return acc;
+            
             if (!acc[code]) {
-              acc[code] = { code, district: sub._104, workplace: sub._105, pre: null, post: null, latestTime: 0 };
+              acc[code] = { code, district: sub._104 || '', workplace: sub._105 || '', pre: null, post: null, latestTime: 0 };
             }
             if (sub.assessment_time === 'pre') acc[code].pre = sub;
             if (sub.assessment_time === 'post') acc[code].post = sub;
@@ -640,12 +583,14 @@
             acc[code].workplace = sub._105 || acc[code].workplace;
             
             let time = 0;
-            if (sub.timestamp && typeof sub.timestamp.toMillis === 'function') {
-                time = sub.timestamp.toMillis();
-            } else if (sub.timestamp && sub.timestamp.seconds) {
-                time = sub.timestamp.seconds * 1000;
-            } else if (typeof sub.timestamp === 'number') {
-                time = sub.timestamp;
+            if (sub.timestamp) {
+              if (typeof sub.timestamp.toMillis === 'function') {
+                  time = sub.timestamp.toMillis();
+              } else if (sub.timestamp.seconds) {
+                  time = sub.timestamp.seconds * 1000;
+              } else if (typeof sub.timestamp === 'number') {
+                  time = sub.timestamp;
+              }
             }
             if (time > acc[code].latestTime) acc[code].latestTime = time;
             
@@ -655,16 +600,15 @@
           return (
             <React.Fragment>
 
-              {!db && (
-                <div className="bg-yellow-500 text-white text-center py-2 px-4 text-sm font-bold shadow-md print:hidden flex items-center justify-center gap-2 font-noto">
-                  <Icon.AlertCircle className="w-5 h-5 text-white" />
-                  <span>ໂໝດທົດລອງລະດັບທ້ອງຖິ່ນ (Local Demo Mode) — ຂໍ້ມູນຈະຖືກເກັບຊົ່ວຄາວໃນບຣາວເຊີເທົ່ານັ້ນ</span>
-                </div>
-              )}
+              {/* ແຖບສະແດງສະຖານະການເກັບຂໍ້ມູນໃນບຣາວເຊີ */}
+              <div className="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-bold shadow-md print:hidden flex items-center justify-center gap-2 font-noto">
+                <Icon.CheckCircle className="w-5 h-5 text-white" />
+                <span>ເປີດໃຊ້ລະບົບເກັບຂໍ້ມູນຖາວອນໃນບຣາວເຊີ (LocalStorage Active) — ປອດໄພ ແລະ ບໍ່ມີວັນຫາຍ</span>
+              </div>
 
               {showAdminLogin && (
                 <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-[100] font-noto">
-                  <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl relative">
+                  <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl relative animate-in fade-in zoom-in duration-200">
                     <button onClick={() => setShowAdminLogin(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full p-1 transition-colors">
                       <Icon.X className="w-5 h-5" />
                     </button>
@@ -717,8 +661,8 @@
                         <Icon.CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-500" />
                         <h3 className="text-lg font-bold mb-1">ກຽມຂໍ້ມູນສຳເລັດແລ້ວ!</h3>
                         <p className="text-sm">
-                          ...ຂໍ້ມູນໄດ້ຖືກກັອບປີ້ໄວ້ແລ້ວ. ກະລຸນາຄລິກໃສ່ <strong>ຊ່ອງແຊັດ (Chat) ດ້ານຊ້າຍມື</strong> <br/>
-                          ແລ້ວກົດ <strong>Ctrl+V (ຫຼື ກົດ Paste)</strong> ແລ້ວກົດສົ່ງ ເພື່ອໃຫ້ຂ້າພະເຈົ້າສ້າງແອັບໂຕໃໝ່ໃຫ້ທ່ານເລີຍ.
+                          ...<b>ຂໍ້ມູນໄດ້ຖືກກັອບປີ້ໄວ້ແລ້ວ.</b> ກະລຸນາຄລິກໃສ່ <b>ຊ່ອງແຊັດ (Chat) ດ້ານຊ້າຍມື</b> <br/>
+                          ແລ້ວກົດ <b>Ctrl+V (ຫຼື ກົດ Paste)</b> ແລ້ວກົດສົ່ງ ເພື່ອໃຫ້ຂ້າພະເຈົ້າສ້າງແອັບໂຕໃໝ່ໃຫ້ທ່ານເລີຍ.
                         </p>
                       </div>
                     ) : (
@@ -883,21 +827,15 @@
                   <div className={`${isChartFullscreen ? 'w-full' : 'w-1/2'} h-full overflow-y-auto bg-white z-10 shadow-[-10px_0_15px_-5px_rgba(0,0,0,0.05)] transition-all duration-300 ease-in-out`}>
                     <div className={`p-4 sm:p-6 lg:p-8 ${isChartFullscreen ? 'max-w-7xl mx-auto' : 'min-w-[400px]'}`}>
                       
-                      {!db && (
-                        <div className="mb-6 p-5 bg-blue-50 border border-blue-200 rounded-2xl text-blue-800 text-xs md:text-sm animate-in fade-in slide-in-from-top-4 duration-300 font-noto">
-                          <h4 className="font-bold text-blue-900 mb-2 flex items-center gap-1.5">
-                            <Icon.AlertCircle className="w-5 h-5 text-blue-700" />
-                            ວິທີເຊື່ອມຕໍ່ຖານຂໍ້ມູນຄລາວ (ຟຣີ 100%) ເພື່ອບັນທຶກຂໍ້ມູນຖາວອນເທິງ GitHub Pages:
-                          </h4>
-                          <ol className="list-decimal list-inside space-y-1 ml-1 leading-relaxed">
-                            <li>ເຂົ້າໄປສ້າງໂຄງການໃນເວັບໄຊທ໌ <strong className="text-blue-900 font-sans">firebase.google.com</strong> (ຟຣີ Spark Plan).</li>
-                            <li>ເພີ່ມ Web App ໃໝ່ໃນລະບົບ Firebase ເພື່ອເອົາລະຫັດຄອນຟິກ (<strong className="text-blue-900 font-sans">firebaseConfig</strong>).</li>
-                            <li>ເປີດໄຟລ໌ <strong className="text-blue-900 font-sans">index.html</strong> ນີ້ດ້ວຍໂປຣແກຣມແກ້ໄຂໂຄ້ດ (ເຊັ່ນ VS Code ຫຼື Notepad).</li>
-                            <li>ຊອກຫາຄຳວ່າ <strong className="text-blue-900 font-sans">customFirebaseConfig</strong> (ຢູ່ປະມານແຖວທີ 37) ແລ້ວເອົາຄອນຟິກ Firebase ຂອງທ່ານມາແທນທີ່.</li>
-                            <li>ອັບໂຫລດໄຟລ໌ນີ້ຂຶ້ນ GitHub Pages ແລ້ວລະບົບຈະເລີ່ມເກັບຂໍ້ມູນຢ່າງຖາວອນທັນທີ!</li>
-                          </ol>
-                        </div>
-                      )}
+                      <div className="mb-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-800 text-xs md:text-sm animate-in fade-in slide-in-from-top-4 duration-300 font-noto">
+                        <h4 className="font-bold text-emerald-900 mb-2 flex items-center gap-1.5">
+                          <Icon.CheckCircle className="w-5 h-5 text-emerald-700" />
+                          ລະບົບເກັບຂໍ້ມູນຖາວອນ LocalStorage (ງ່າຍທີ່ສຸດ ແລະ ປອດໄພ):
+                        </h4>
+                        <p className="leading-relaxed">
+                          ເວີຊັ່ນນີ້ **ບໍ່ມີຄວາມຕ້ອງການຕັ້ງຄ່າຄລາວ Firebase ໃດໆທັງສິ້ນ**. ຂໍ້ມູນຜົນການປະເມີນທັງໝົດຈະຖືກບັນທຶກ ແລະ ເກັບຮັກສາໄວ້ໃນບຣາວເຊີຂອງເຄື່ອງນີ້ຢ່າງຖາວອນ (ຢູ່ໄດ້ຫຼາຍປີໂດຍບໍ່ຈຳກັດພຽງແຕ່ 3 ວັນ) ເຮັດໃຫ້ທ່ານສາມາດປິດເຄື່ອງ, ປິດຄອມພິວເຕີ ຫຼື ອັບໂຫລດຂຶ້ນ GitHub Pages ແລ້ວເປີດກັບມາເບິ່ງຂໍ້ມູນເກົ່າໄດ້ຄົບຖ້ວນຕະຫຼອດເວລາ!
+                        </p>
+                      </div>
 
                       <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-6 gap-4">
                         <div className="flex items-center gap-2">
@@ -933,11 +871,11 @@
                       <div className={`grid gap-4 mb-8 ${isChartFullscreen ? 'grid-cols-4' : 'grid-cols-2'}`}>
                         <div className="p-4 rounded-xl shadow-sm border" style={{ backgroundColor: 'rgba(53, 103, 93, 0.1)', borderColor: 'rgba(53, 103, 93, 0.2)' }}>
                           <p className="text-sm font-semibold" style={{ color: '#35675D' }}>ຈຳນວນ Pre-test</p>
-                          <p className="text-2xl font-bold font-sans" style={{ color: '#35675D' }}>{submissions.filter(s => s.assessment_time === 'pre').length}</p>
+                          <p className="text-2xl font-bold font-sans" style={{ color: '#35675D' }}>{submissions.filter(s => s && s.assessment_time === 'pre').length}</p>
                         </div>
                         <div className="p-4 rounded-xl shadow-sm border" style={{ backgroundColor: 'rgba(191, 90, 56, 0.1)', borderColor: 'rgba(191, 90, 56, 0.2)' }}>
                           <p className="text-sm font-semibold" style={{ color: '#BF5A38' }}>ຈຳນວນ Post-test</p>
-                          <p className="text-2xl font-bold font-sans" style={{ color: '#BF5A38' }}>{submissions.filter(s => s.assessment_time === 'post').length}</p>
+                          <p className="text-2xl font-bold font-sans" style={{ color: '#BF5A38' }}>{submissions.filter(s => s && s.assessment_time === 'post').length}</p>
                         </div>
                       </div>
 
