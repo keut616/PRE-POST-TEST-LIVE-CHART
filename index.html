@@ -138,8 +138,8 @@
           ],
           alignc: [
             { name: 'a', label: 'A. ຟັງ ແລະ ຖາມ' },
-            { name: 'b', label: 'B. ຖາມ ແລະ ອະທિບາຍຕະຫຼອດເວລາ' },
-            { name: 'c', label: 'C. ກະກຽມວาລະ ແລະ ບັນທຶກກອງປະຊຸມ' }
+            { name: 'b', label: 'B. ຖາມ ແລະ ອະທິບາຍຕະຫຼອດເວລາ' },
+            { name: 'c', label: 'C. ກະກຽມວາລະ ແລະ ບັນທຶກກອງປະຊຸມ' }
           ],
           inspirea: [
             { name: 'a', label: 'A. ບໍ່ໜ້າເຊື່ອຖື ແລະ ໄປເຮັດວຽກຊ້າ' },
@@ -381,7 +381,7 @@
             ];
           });
 
-          // ບັນທຶກຂໍ້ມູນລົງ LocalStorage
+          // ບັນທຶກຂໍ້ມູນລົງ LocalStorage ທຸກຄັ້ງທີ່ມີການປ່ຽນແປງ submissions
           useEffect(() => {
             if (Array.isArray(submissions)) {
               localStorage.setItem('lmg_submissions_data', JSON.stringify(submissions));
@@ -600,12 +600,6 @@
           return (
             <React.Fragment>
 
-              {/* ແຖບສະແດງສະຖານະການເກັບຂໍ້ມູນໃນບຣາວເຊີ */}
-              <div className="bg-emerald-600 text-white text-center py-2 px-4 text-sm font-bold shadow-md print:hidden flex items-center justify-center gap-2 font-noto">
-                <Icon.CheckCircle className="w-5 h-5 text-white" />
-                <span>ເປີດໃຊ້ລະບົບເກັບຂໍ້ມູນຖາວອນໃນບຣາວເຊີ (LocalStorage Active) — ປອດໄພ ແລະ ບໍ່ມີວັນຫາຍ</span>
-              </div>
-
               {showAdminLogin && (
                 <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-[100] font-noto">
                   <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl relative animate-in fade-in zoom-in duration-200">
@@ -661,7 +655,7 @@
                         <Icon.CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-500" />
                         <h3 className="text-lg font-bold mb-1">ກຽມຂໍ້ມູນສຳເລັດແລ້ວ!</h3>
                         <p className="text-sm">
-                          ...<b>ຂໍ້ມູນໄດ້ຖືກກັອບປີ້ໄວ້ແລ້ວ.</b> ກະລຸນາຄລິກໃສ່ <b>ຊ່ອງແຊັດ (Chat) ດ້ານຊ້າຍມື</b> <br/>
+                          ...<b><b>ຂໍ້ມູນໄດ້ຖືກກັອບປີ້ໄວ້ແລ້ວ.</b></b> ກະລຸນາຄລິກໃສ່ <b>ຊ່ອງແຊັດ (Chat) ດ້ານຊ້າຍມື</b> <br/>
                           ແລ້ວກົດ <b>Ctrl+V (ຫຼື ກົດ Paste)</b> ແລ້ວກົດສົ່ງ ເພື່ອໃຫ້ຂ້າພະເຈົ້າສ້າງແອັບໂຕໃໝ່ໃຫ້ທ່ານເລີຍ.
                         </p>
                       </div>
@@ -687,7 +681,7 @@
                       </div>
                     </div>
                     <h3 className="text-xl font-bold text-gray-800 mb-2">ຍືນຍັນການລຶບຂໍ້ມູນ?</h3>
-                    <p className="text-gray-500 text-sm mb-6">#<b>ຂໍ້ມູນທີ່ຖືກລຶບແລ້ວຈະບໍ່ສາມາດກູ້ຄືນໄດ້.</b> ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ?</p>
+                    <p className="text-gray-500 text-sm mb-6">#<b><b>ຂໍ້ມູນທີ່ຖືກລຶບແລ້ວຈະບໍ່ສາມາດກູ້ຄືນໄດ້.</b></b> ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບ?</p>
                     <div className="flex gap-3">
                       <button onClick={() => setDeleteConfirmId(null)} className="flex-1 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl hover:bg-gray-200 transition-colors">
                         ຍົກເລີກ (Cancel)
@@ -725,7 +719,7 @@
                           <p className={`text-sm leading-relaxed mt-2 px-4 ${editId ? 'text-yellow-700' : 'text-gray-600'}`}>
                             {editId 
                               ? `ກຳລັງແກ້ໄຂຂໍ້ມູນຂອງລະຫັດ: ${formData._101}` 
-                              : 'ນີ້​ແມ່ນບົດທົດສອບ ​ກ່ອນ-ຫຼັງ ​ສໍາ​ລັບ​ການຝຶກອົບຮົມ LMG ຄັ້ງທີ 1 ເຊິ່ງ ​ຈະ​ກວມ ​ເອົາ 3 ທັກສະ LMG – ສຸມ ​ໃສ່ ​, ຈັດວາງ ​- ຂັບເຄື່ອນ ​ແລະ ​ການສ້າງແຮງບັນດານໃຈ ​.'}
+                              : 'ນີ້​ແມ່ນບົດທົດສອບ ​ກ່ອນ-ຫຼັງ ​ສໍາ​ລັບ​ການຝຶກອົບຮົມ LMG ຄັ້ງທີ 1 ເຊິ່ງ ​ຈະ​ກວມ ​ເອົາ 3 ทັກສະ LMG – ສຸມ ​ໃສ່ ​, ຈັດວາງ ​- ຂັບເຄື່ອນ ​ແລະ ​ການສ້າງແຮງບັນດານໃຈ ​.'}
                           </p>
                         </div>
 
@@ -833,7 +827,7 @@
                           ລະບົບເກັບຂໍ້ມູນຖາວອນ LocalStorage (ງ່າຍທີ່ສຸດ ແລະ ປອດໄພ):
                         </h4>
                         <p className="leading-relaxed">
-                          ເວີຊັ່ນນີ້ **ບໍ່ມີຄວາມຕ້ອງການຕັ້ງຄ່າຄລາວ Firebase ໃດໆທັງສິ້ນ**. ຂໍ້ມູນຜົນການປະເມີນທັງໝົດຈະຖືກບັນທຶກ ແລະ ເກັບຮັກສາໄວ້ໃນບຣາວເຊີຂອງເຄື່ອງນີ້ຢ່າງຖາວອນ (ຢູ່ໄດ້ຫຼາຍປີໂດຍບໍ່ຈຳກັດພຽງແຕ່ 3 ວັນ) ເຮັດໃຫ້ທ່ານສາມາດປິດເຄື່ອງ, ປິດຄອມພິວເຕີ ຫຼື ອັບໂຫລດຂຶ້ນ GitHub Pages ແລ້ວເປີດກັບມາເບິ່ງຂໍ້ມູນເກົ່າໄດ້ຄົບຖ້ວນຕະຫຼອດເວລາ!
+                          ຂໍ້ມູນຜົນການປະເມີນທັງໝົດຈະຖືກບັນທຶກ ແລະ ເກັບຮັກສາໄວ້ໃນບຣາວເຊີຂອງເຄື່ອງນີ້ຢ່າງຖາວອນ (ຢູ່ໄດ້ຫຼາຍປີໂດຍບໍ່ຈຳກັດພຽງແຕ່ 3 ວັນ) ເຮັດໃຫ້ທ່ານສາມາດປິດເຄື່ອງ, ປິດບຣາວເຊີ ຫຼື ອັບໂຫລດຂຶ້ນ GitHub Pages ແລ້ວເປີດກັບມາເບິ່ງຂໍ້ມູນເກົ່າໄດ້ຄົບຖ້ວນຕະຫຼອດເວລາ!
                         </p>
                       </div>
 
@@ -841,7 +835,7 @@
                         <div className="flex items-center gap-2">
                           <Icon.Database className="w-6 h-6 text-blue-600" />
                           <h2 className="text-xl font-bold text-gray-800">
-                            ຂໍ້ມູນ ແລະ ແຜນວາດ
+                            "ຂໍ້ມູນ ແລະ ແຜນວາດ"
                           </h2>
                           <button 
                             onClick={() => setIsChartFullscreen(!isChartFullscreen)}
@@ -891,18 +885,18 @@
                       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden mb-8">
                         <div className="p-4 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
                           <Icon.List />
-                          <h3 className="text-sm font-bold text-gray-700">ລາຍການຂໍ້ມູນທັງໝົດ (All Records)</h3>
+                          <h3 className="text-sm font-bold text-gray-700">ລາຍການຂໍ້ມູນທັງໝົດ</h3>
                         </div>
                         <div className="overflow-x-auto">
                           <table className="w-full text-left border-collapse min-w-[600px]">
                             <thead>
                               <tr className="bg-white border-b">
-                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap">ລະຫັດ (Code)</th>
-                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap">ເມືອງ (District)</th>
-                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap">ບ່ອນເຮັດວຽກ (Workplace)</th>
+                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap">ລະຫັດ</th>
+                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap">ເມືອງ</th>
+                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap">ບ່ອນເຮັດວຽກ</th>
                                 <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap text-center">ຄະແນນກ່ອນ</th>
                                 <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap text-center">ຄະແນນຫຼັງ</th>
-                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap text-right">ຈັດການ (Actions)</th>
+                                <th className="p-3 font-semibold text-gray-500 text-xs whitespace-nowrap text-right">ຈັດການ</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -934,18 +928,18 @@
                                       <div className="flex flex-col items-end justify-center gap-1.5">
                                         {group.pre && (
                                           <div className="flex items-center gap-1">
-                                            <span className="text-[9px] text-[#35675D] font-bold mr-1">PRE:</span>
-                                            <button onClick={() => { setSelectedSubmission(group.pre); setIsChartFullscreen(false); }} className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="ເບິ່ງລາຍລະອຽດ Pre-test"><Icon.Eye className="w-4 h-4" /></button>
-                                            <button onClick={() => handleEditClick(group.pre)} className="p-1 text-yellow-600 hover:bg-yellow-50 rounded transition-colors" title="ແກ້ໄຂ Pre-test"><Icon.Edit className="w-4 h-4" /></button>
-                                            <button onClick={() => requestDelete(group.pre.id)} className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors" title="ລຶບ Pre-test"><Icon.Trash className="w-4 h-4 text-red-500" /></button>
+                                            <span className="text-[9px] text-[#35675D] font-bold mr-1">ກ່ອນ:</span>
+                                            <button onClick={() => { setSelectedSubmission(group.pre); setIsChartFullscreen(false); }} className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="ເບິ່ງລາຍລະອຽດກ່ອນການຝຶກອົບຮົມ"><Icon.Eye className="w-4 h-4" /></button>
+                                            <button onClick={() => handleEditClick(group.pre)} className="p-1 text-yellow-600 hover:bg-yellow-50 rounded transition-colors" title="ແກ້ໄຂຂໍ້ມູນກ່ອນການຝຶກອົບຮົມ"><Icon.Edit className="w-4 h-4" /></button>
+                                            <button onClick={() => requestDelete(group.pre.id)} className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors" title="ລຶບຂໍ້ມູນກ່ອນການຝຶກອົບຮົມ"><Icon.Trash className="w-4 h-4 text-red-500" /></button>
                                           </div>
                                         )}
                                         {group.post && (
                                           <div className="flex items-center gap-1">
-                                            <span className="text-[9px] text-[#BF5A38] font-bold mr-1">POST:</span>
-                                            <button onClick={() => { setSelectedSubmission(group.post); setIsChartFullscreen(false); }} className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="ເບິ່ງລາຍລະອຽດ Post-test"><Icon.Eye className="w-4 h-4" /></button>
-                                            <button onClick={() => handleEditClick(group.post)} className="p-1 text-yellow-600 hover:bg-yellow-50 rounded transition-colors" title="ແກ້ໄຂ Post-test"><Icon.Edit className="w-4 h-4" /></button>
-                                            <button onClick={() => requestDelete(group.post.id)} className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors" title="ລຶບ Post-test"><Icon.Trash className="w-4 h-4 text-red-500" /></button>
+                                            <span className="text-[9px] text-[#BF5A38] font-bold mr-1">ຫຼັງ:</span>
+                                            <button onClick={() => { setSelectedSubmission(group.post); setIsChartFullscreen(false); }} className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="ເບິ່ງລາຍລະອຽດຫຼັງການຝຶກອົບຮົມ"><Icon.Eye className="w-4 h-4" /></button>
+                                            <button onClick={() => handleEditClick(group.post)} className="p-1 text-yellow-600 hover:bg-yellow-50 rounded transition-colors" title="ແກ້ໄຂຂໍ້ມູນຫຼັງການຝຶກອົບຮົມ"><Icon.Edit className="w-4 h-4" /></button>
+                                            <button onClick={() => requestDelete(group.post.id)} className="p-1 text-red-500 hover:bg-red-50 rounded transition-colors" title="ລຶບຂໍ້ມູນຫຼັງການຝຶກອົບຮົມ"><Icon.Trash className="w-4 h-4 text-red-500" /></button>
                                           </div>
                                         )}
                                       </div>
